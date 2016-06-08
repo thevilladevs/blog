@@ -1,3 +1,4 @@
+{% load blog_tags %}
 {% load staticfiles %}
 <!DOCTYPE html>
 <html>
@@ -16,6 +17,8 @@
     <!-- Custom CSS -->
     <link href="{% static "css/clean-blog.min.css" %}" rel="stylesheet">
 
+    <!-- Socialicious icons -->
+    <link href="{% static "css/socialicious.css" %}" rel="stylesheet">
     <!-- Custom Fonts -->
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
@@ -41,23 +44,20 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">Start Bootstrap</a>
+                <a class="navbar-brand" href="{% url "blog:post_list" %}">Villadevs</a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
                     <li>
-                        <a href="index.html">Home</a>
+                        <a href="{% url "blog:post_list" %}">Inicio</a>
                     </li>
                     <li>
-                        <a href="about.html">About</a>
+                        <a href="about.html">Acerca de</a>
                     </li>
                     <li>
-                        <a href="post.html">Sample Post</a>
-                    </li>
-                    <li>
-                        <a href="contact.html">Contact</a>
+                        <a href="post.html">Integrantes</a>
                     </li>
                 </ul>
             </div>
@@ -81,9 +81,30 @@
 
     <div class="container">
       <div class="row">
-        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-        {% block content %}
-        {% endblock %}
+        <div class="col-lg-8 ">
+          {% block content %}
+          {% endblock %}
+        </div>
+        <!-- left block -->
+        <div class="col-lg-4">
+            <h3>Últmos posts</h3>
+            {% show_latest_posts 3 %}
+
+            <h3>Post mas comentados</h3>
+              {% get_most_commented_posts as most_commented_posts %}
+            <ul>
+              {% for post in most_commented_posts %}
+                 <li>
+                    <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+                 </li>
+              {% endfor %}
+            </ul>
+            <p>
+               {% total_posts %} artículos a la fecha.
+            </p>
+            <p>
+              <a href="{% url "blog:post_feed" %}">Subscribete al RSS</a>
+            </p>
         </div>
       </div>
     </div>
@@ -95,31 +116,22 @@
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                     <ul class="list-inline text-center">
                         <li>
-                            <a href="#">
-                                <span class="fa-stack fa-lg">
-                                    <i class="fa fa-circle fa-stack-2x"></i>
-                                    <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
-                                </span>
-                            </a>
+                          <span class="fa-stack fa-lg">
+                            <a href="#"><i class="icon-meetup"></i></a>
+                          </span>
                         </li>
                         <li>
-                            <a href="#">
-                                <span class="fa-stack fa-lg">
-                                    <i class="fa fa-circle fa-stack-2x"></i>
-                                    <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
-                                </span>
-                            </a>
+                          <span class="fa-stack fa-lg">
+                            <a href="#"><i class="icon-twitter"></i></a>
+                          </span>
                         </li>
                         <li>
-                            <a href="#">
-                                <span class="fa-stack fa-lg">
-                                    <i class="fa fa-circle fa-stack-2x"></i>
-                                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
-                                </span>
-                            </a>
+                          <span class="fa-stack fa-lg">
+                            <a href="#"><i class="icon-facebook"></i></a>
+                          </span>
                         </li>
                     </ul>
-                    <p class="copyright text-muted">Copyright &copy; Your Website 2014</p>
+                    <p class="copyright text-muted">Publíquese y distribúyase</p>
                 </div>
             </div>
         </div>

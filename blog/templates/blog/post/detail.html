@@ -1,4 +1,5 @@
 {% extends "blog/base.html" %}
+{% load blog_tags %}
 {% block title %}{{ post.title }}{% endblock %}
 {% block header %}
   <div class="post-heading">
@@ -9,7 +10,7 @@
 {% endblock %}
 
 {% block content %}
-  {{ post.body|linebreaks }}
+  {{ post.body|markdown }}
   {% with comments.count as total_comments %}
     <h2>
       {{ total_comments }} comment {{ total_comments|pluralize }}
